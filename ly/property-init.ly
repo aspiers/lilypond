@@ -236,7 +236,7 @@ harmonicNote =
    (style-note-heads 'NoteHead 'harmonic note))
 
 
-%% hideNotes
+%% hideNote(s)
 
 hideNotes = {
   % hide notes, accidentals, etc.
@@ -248,6 +248,7 @@ hideNotes = {
   \override Beam #'transparent = ##t
   \override Accidental #'transparent = ##t
 }
+hideNote = \once \hideNotes
 unHideNotes = {
   \revert Accidental #'transparent
   \revert Beam #'transparent

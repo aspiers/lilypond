@@ -15,7 +15,7 @@ En determinadas situaciones es necesario crear ligaduras de
 expresión entre notas que están en voces distintas.
 
 La solución es añadir notas invisibles a una de las voces
-utilizando @code{\\hideNotes}.
+utilizando @code{\\hideNote}.
 
 Este ejemplo es el compás 235 de la Chacona de la segunda Partita
 para violín solo, BWV 1004, de Bach.
@@ -28,7 +28,7 @@ In some situations, it may be necessary to create slurs between notes
 from different voices.
 
 The solution is to add invisible notes to one of the voices, using
-@code{\\hideNotes}.
+@code{\\hideNote}.
 
 This example is measure 235 of the Ciaconna from Bach's 2nd Partita for
 solo violin, BWV 1004.
@@ -46,15 +46,15 @@ solo violin, BWV 1004.
     {
       \slurUp
       bes,16[ s e](
-      \hideNotes a)
-      \unHideNotes f[(
-      \hideNotes a)
-      \unHideNotes fis](
-      \hideNotes a)
-      \unHideNotes g[(
-      \hideNotes a)
-      \unHideNotes gis](
-      \hideNotes a)
+      \hideNote a)
+      f[(
+      \hideNote a)
+      fis](
+      \hideNote a)
+      g[(
+      \hideNote a)
+      gis](
+      \hideNote a)
     }
   >>
 }

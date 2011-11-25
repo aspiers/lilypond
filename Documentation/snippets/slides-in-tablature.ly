@@ -45,14 +45,12 @@ Slides can be typeset in both @code{Staff} and @code{TabStaff} contexts:
 slides = {
   c'8\3(\glissando d'8\3)
   c'8\3\glissando d'8\3
-  \hideNotes
+  \hideNote
   \grace { g16\3\glissando }
-  \unHideNotes
   c'4\3
   \afterGrace d'4\3\glissando {
-  \stemDown \hideNotes
+  \stemDown \hideNote
   g16\3 }
-  \unHideNotes
 }
 
 \score {

@@ -230,11 +230,15 @@ By default, numbers greater than 9 are not supported using
 
 @funindex \hideNotes
 @funindex hideNotes
+@funindex \hideNote
+@funindex hideNote
 @funindex \unHideNotes
 @funindex unHideNotes
 
 Hidden (or invisible or transparent) notes can be useful in
-preparing theory or composition exercises.
+preparing theory or composition exercises.  @code{\hideNotes}
+hides all notes until the next @code{\unHideNotes}, whereas
+@code{\hideNote} just hides the next note.
 
 @lilypond[verbatim,quote,relative=2]
 c4 d
@@ -242,9 +246,8 @@ c4 d
 e4 f
 \unHideNotes
 g a
-\hideNotes
+\hideNote
 b
-\unHideNotes
 c
 @end lilypond
 

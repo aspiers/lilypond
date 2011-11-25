@@ -61,6 +61,11 @@ which scares away people.
 
 @end ignore
 @item
+The @code{\hideNote} command has been added, which has the same
+effect as @code{\hideNotes} except only for one note, so it does
+not require a corresponding @code{\unHideNotes} afterwards.
+
+@item
 Scheme expressions inside of embedded Lilypond (@code{#@{@dots{}#@}})
 are now executed in lexical closure of the surrounding Scheme code.
 @code{$} is no longer special in embedded Lilypond.  It can be used

@@ -237,6 +237,8 @@ Schreibweise @code{@var{Note}-@var{Zahl}} einsetzt.
 @cindex transparent, Noten
 @funindex \hideNotes
 @funindex hideNotes
+@funindex \hideNote
+@funindex hideNote
 @funindex \unHideNotes
 @funindex unHideNotes
 
@@ -250,9 +252,8 @@ c4 d
 e4 f
 \unHideNotes
 g a
-\hideNotes
+\hideNote
 b
-\unHideNotes
 c
 @end lilypond
 

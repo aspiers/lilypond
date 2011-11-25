@@ -248,6 +248,8 @@ c4-1 d-2 f-4 c^\markup { \finger "2 - 3" }
 
 @funindex \hideNotes
 @funindex hideNotes
+@funindex \hideNote
+@funindex hideNote
 @funindex \unHideNotes
 @funindex unHideNotes
 
@@ -261,9 +263,8 @@ c4 d
 e4 f
 \unHideNotes
 g a
-\hideNotes
+\hideNote
 b
-\unHideNotes
 c
 @end lilypond
 

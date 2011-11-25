@@ -50,9 +50,8 @@ hidden note and cadenza timing.
   c4 c
   \cadenzaOn
   c4\glissando
-  \hideNotes
+  \hideNote
   c,,4
-  \unHideNotes
   \cadenzaOff
   \bar "|"
 }
