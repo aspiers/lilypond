@@ -106,6 +106,7 @@ public:
   int get_semitone_pitch () const;
   int get_fine_tuning () const;
   virtual string to_string () const;
+  virtual void print () const;
 
   Audio_note *audio_;
 

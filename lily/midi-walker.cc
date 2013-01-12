@@ -26,6 +26,7 @@
 #include "midi-chunk.hh"
 #include "midi-stream.hh"
 #include "warn.hh"
+#include <iostream>
 
 Midi_note_event::Midi_note_event ()
 {
@@ -82,6 +83,9 @@ Midi_walker::do_start_note (Midi_note *note)
 {
   Audio_item *ptr = items_[index_];
   assert (note->audio_ == ptr);
+  cout << "start note ";
+  note->print();
+  cout << endl;
   int now_ticks = ptr->audio_column_->ticks ();
   int stop_ticks = int (moment_to_real (note->audio_->length_mom_) *
                         Real (384 * 4)) + now_ticks;
@@ -134,6 +138,9 @@ Midi_walker::do_start_note (Midi_note *note)
       stop_note_queue.insert (e);
 
       output_event (now_ticks, note);
+      cout << "  output ";
+      note->print();
+      cout << endl;
     }
 }
 
@@ -151,6 +158,9 @@ Midi_walker::do_stop_notes (int max_ticks)
       int stop_ticks = e.key;
       Midi_note *note = e.val;
 
+      cout << "stop note ";
+      note->print();
+      cout << endl;
       output_event (stop_ticks, note);
     }
 }

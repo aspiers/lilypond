@@ -24,6 +24,7 @@
 #include "stream-event.hh"
 #include "translator.icc"
 #include <list>
+#include <iostream>
 
 struct Head_audio_event_tuple
 {
@@ -80,6 +81,9 @@ Tie_performer::acknowledge_audio_element (Audio_element_info inf)
 {
   if (Audio_note *an = dynamic_cast<Audio_note *> (inf.elem_))
     {
+      cout << "acknowledge_audio_element(" << an->pitch_.to_string() <<
+        ")" << endl;
+
       // for each tied note, store the info and its end moment, so we can
       // later on check whether (1) the note is still ongoing and (2) how
       // long the skip is with tieWaitForNote
@@ -94,6 +98,7 @@ Tie_performer::acknowledge_audio_element (Audio_element_info inf)
       list<Head_audio_event_tuple>::iterator it;
       bool found = false;
       Stream_event *right_mus = inf.event_;
+      cout << "  heads_to_tie_.size() == " << heads_to_tie_.size() << endl;
       for (it = heads_to_tie_.begin ();
            !found && (it != heads_to_tie_.end ());
            it++)
@@ -101,14 +106,21 @@ Tie_performer::acknowledge_audio_element (Audio_element_info inf)
           Audio_element_info et = (*it).head_;
           Audio_note *th = dynamic_cast<Audio_note *> (et.elem_);
           Stream_event *left_mus = et.event_;
+          cout << "  it " << th->pitch_.to_string()
+               << " len " << th->length_mom_.to_string()
+               << endl;
 
           if (th && right_mus && left_mus
               && ly_is_equal (right_mus->get_property ("pitch"),
                               left_mus->get_property ("pitch")))
             {
               found = true;
+              cout << "    matched on pitch" << endl;
               // (*it).moment_ already stores the end of the tied note!
+              cout << "    now_mom " << now_mom().to_string() << endl;
+              cout << "    end_mom " << (*it).end_moment_.to_string() << endl;
               Moment skip = now_mom () - (*it).end_moment_;
+              cout << "    skip " << skip.to_string() << endl;
               an->tie_to (th, skip);
               it = heads_to_tie_.erase (it);
             }
@@ -133,6 +145,11 @@ public:
   end_moment_passed (Moment mom) : now (mom) {}
   bool operator () (const Head_audio_event_tuple &value)
   {
+    cout << "** end_moment_passed? end_moment_ "
+         << value.end_moment_.to_string()
+         << " <= now " << now.to_string()
+         << " ?" << endl;
+      
     return (value.end_moment_ <= now);
   }
 };
@@ -144,15 +161,21 @@ Tie_performer::stop_translation_timestep ()
   // note is still ongoing or we have we have tieWaitForNote set...
   if (!to_boolean (get_property ("tieWaitForNote")))
     {
+      cout << "heads_to_tie_ size pre-removal " << heads_to_tie_.size() << endl;
       heads_to_tie_.remove_if (end_moment_passed (now_mom ()));
+      cout << "heads_to_tie_ size post-removal " << heads_to_tie_.size() << endl;
     }
 
   // Append now_heads_ and now_tied_heads to heads_to_tie_ for the next time step
   if (event_)
     {
+      cout << "heads_to_tie_ << now_heads_ size " << now_heads_.size() << endl;
       heads_to_tie_.splice (heads_to_tie_.end (), now_heads_);
+      cout << "heads_to_tie_ size now " << heads_to_tie_.size() << endl;
     }
+  cout << "heads_to_tie_ << now_tied_heads_ size " << now_tied_heads_.size() << endl;
   heads_to_tie_.splice (heads_to_tie_.end (), now_tied_heads_);
+  cout << "heads_to_tie_ size now " << heads_to_tie_.size() << endl;
 
   event_ = 0;
   now_heads_.clear ();

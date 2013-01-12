@@ -27,6 +27,8 @@
 #include "program-option.hh"
 #include "string-convert.hh"
 #include "warn.hh"
+#include <iostream>
+#include <cstdio>
 
 #define PITCH_WHEEL_CENTER 0x2000
 #define PITCH_WHEEL_SEMITONE 0X1000
@@ -222,6 +224,21 @@ Midi_note::to_string () const
   str += ::to_string ((char) dynamic_byte_);
 
   return str;
+}
+
+void
+Midi_note::print () const
+{
+  string str = "";
+  string space = " ";
+  string::iterator it;
+
+  string orig = to_string();
+
+  for ( it = orig.begin() ; it < orig.end() - 1; it++ )
+    {
+      printf("%hhu ", *it);
+    }
 }
 
 Midi_note_off::Midi_note_off (Midi_note *n)

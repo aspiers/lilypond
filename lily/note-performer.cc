@@ -23,6 +23,7 @@
 #include "global-context.hh"
 #include "stream-event.hh"
 #include "warn.hh"
+#include <iostream>
 
 #include "translator.icc"
 
@@ -56,6 +57,7 @@ Note_performer::process_music ()
   if (unsmob_pitch (prop))
     transposing = *unsmob_pitch (prop);
 
+  cout << endl;
   for (vsize i = 0; i < note_evs_.size (); i++)
     {
       Stream_event *n = note_evs_[i];
@@ -64,6 +66,9 @@ Note_performer::process_music ()
       if (Pitch *pitp = unsmob_pitch (pit))
         {
           SCM articulations = n->get_property ("articulations");
+          // SCM transparent   = n->get_property ("transparent");
+          // pitp->print_smob();
+          cout << "pitch " << pitp->to_string() << endl;
           Stream_event *tie_event = 0;
           for (SCM s = articulations;
                !tie_event && scm_is_pair (s);
@@ -80,7 +85,10 @@ Note_performer::process_music ()
           Moment len = get_event_length (n, now_mom ());
 
           Audio_note *p = new Audio_note (*pitp, len,
-                                          tie_event, transposing.negated ());
+                                          tie_event,
+                                          transposing.negated ());
+          //len.print_smob(FIXME);
+          cout << "  len " << len.to_string() << endl;
           Audio_element_info info (p, n);
           announce_element (info);
           notes_.push_back (p);
@@ -92,7 +100,14 @@ Note_performer::process_music ()
             {
               if (last_start_.grace_part_ == Rational (0))
                 {
+                  cout << "  last_start_.grace_part_ "
+                       << last_start_.grace_part_.to_string() << endl;
                   for (vsize i = 0; i < last_notes_.size (); i++)
+                    cout << "    lengthen last_notes_[" << i << "]"
+                         << " len " << last_notes_[i]->length_mom_.to_string()
+                         << " pitch " << last_notes_[i]->pitch_.to_string()
+                         << " by " << now_mom().grace_part_.to_string()
+                         << endl;
                     last_notes_[i]->length_mom_ += Moment (0,
                                                            now_mom ().grace_part_);
                 }
